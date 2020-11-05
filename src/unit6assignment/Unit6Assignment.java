@@ -6,8 +6,14 @@
  */
 package unit6assignment;
 
+import java.io.File;
 import java.util.Scanner;
 import java.util.ArrayList;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.swing.JOptionPane;
 
 public class Unit6Assignment {
 
@@ -183,8 +189,6 @@ public class Unit6Assignment {
                 System.out.println("Please choose an avaliable drink");
                 Thread.sleep(1500); //waits for 1 second
             }
-            
-
         } while (!done);
         
         //user input, their size
@@ -205,8 +209,7 @@ public class Unit6Assignment {
                 System.out.println("Please input numbers");
                 Thread.sleep(1500);//waits for 1 and a half seconds
             }    
-        }
-        
+        } 
     }//end of addOrders
     
     /**
@@ -305,4 +308,46 @@ public class Unit6Assignment {
             System.out.println("");    
         }  
     }//End of clearScreen    
+    /**
+     * playMusic
+     * 
+     * adds music to the program:^). When adding music, make sure it is a .wav 
+     * format, as .mp3 does not work
+     */
+    public static void playMusic()
+    {   
+        try
+        {
+            /*
+            reads the file and creates it as an Input stream
+            if you want your own music, please make sure its a .wav, or just use
+            the song I sent(dont worry, its not despacito again). 
+            Make sure you dont delete the new File as I simply just made 
+            the object, in the object. 
+            song file: Load Game.wav
+            */
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream
+        (new File("C:\\Users\\joey_\\OneDrive - Halton Catholic District School "
+                + "Board\\Computer Science\\Grade 12\\Unit 5\\Unit5Assignment\\"
+                + "Songs\\Load Game.wav"));
+            Clip clip = AudioSystem.getClip();
+            //opens the file
+            clip.open(audioInput);
+            
+            //creates a controller for volume
+            FloatControl gainControl = (FloatControl)clip.getControl
+        (FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-21.0f);   //Reduces volume by 21 decibels
+            
+            //starts the clip/music
+            clip.start();
+            //loops clip/music
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        }
+        catch(Exception e)
+        {
+            //shows a popup that will tell you that there are no music file
+            JOptionPane.showMessageDialog(null, "Music file not found");
+        }   
+    }//end of playMusic
 }//end of class
